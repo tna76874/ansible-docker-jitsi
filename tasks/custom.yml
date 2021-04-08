@@ -101,7 +101,7 @@
     line: "{{ item.line }}"
   become: yes
   loop:
-    - { regexp: '.level=INFO', line: , state: "absent" }
+    - { regexp: '.level=INFO', line: '', state: "absent" }
     - { regexp: '^level=(.*)', line: '.level={{ config_jvb_logging }}', state: "present" }
   notify:
     - compose down
