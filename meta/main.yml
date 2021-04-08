@@ -1,0 +1,9 @@
+galaxy_info:
+  author: github.com/tna76874
+  description: Jitsi Meet with docker-compose
+  company:
+  license: 	AGPL-3.0-only
+  min_ansible_version: 2.1
+  galaxy_tags: []
+
+dependencies: []
