@@ -4,26 +4,21 @@ galaxy_info:
   company:
   license: AGPL-3.0-only
   min_ansible_version: 2.1
-  
   platforms:
-    - name: EL
-      versions:
-        - all
-    - name: Fedora
-      versions:
-        - all
     - name: Debian
       versions:
-        - all
+        - buster
     - name: Ubuntu
       versions:
-        - all
+        - bionic
   galaxy_tags:
     - docker
-    - jitsi
     - docker-compose
-    - reverse-proxy
+    - compose
+    - jitsi
     - letsencrypt
+    - server
+    - web
 dependencies: []
 collections:
   - community.docker
