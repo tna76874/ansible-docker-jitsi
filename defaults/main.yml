@@ -27,6 +27,8 @@ config_enable_letsencrypt: 0
 config_lobby: 1
 config_restart_policy: always
 config_host_binding: '127.0.0.1:'
+##### Custom configs (everythong that is not configurable with the docker-compose env vars.)
+config_enable_custom_configs: true
 # jvb logging config
 config_jvb_logging: WARNING
 # config.js configs
@@ -39,13 +41,49 @@ config_default_language: de
 config_disable_third_party_request: 'true'
 config_enable_layer_suspension: 'true'
 config_full_res_N: 2
+config_lastN: {5: 10, 30: 7, 50: 5, 70: 3, 90: 2}
 # interface.js configs
 config_logo_url: 'images/watermark.svg'
 config_unnamed_user: 'Fellow Jitster'
 config_name: 'Jitsi Meet'
-config_optimal_browsers: '[ ''chrome'', ''chromium'', ''nwjs'', ''electron'' ]'
-config_unsupported_browsers: '[ ''safari'', ''firefox'' ]'
 config_support_url: 'https://community.jitsi.org/'
+config_optimal_browsers:
+  - 'chrome'
+  - 'chromium'
+  - 'nwjs'
+  - 'electron'
+config_unsupported_browsers:
+  - 'safari'
+  - 'firefox'
+config_toolbar_buttons:
+  - 'microphone'
+  - 'camera'
+  - 'desktop'
+  - 'fullscreen'
+  - 'fodeviceselection'
+  - 'hangup'
+  - 'profile'
+  - 'chat'
+  - 'etherpad'
+  - 'settings'
+  - 'raisehand'
+  - 'videoquality'
+  - 'filmstrip'
+  - 'feedback'
+  - 'stats'
+  - 'shortcuts'
+  - 'tileview'
+  - 'download'
+  - 'help'
+  - 'mute-everyone'
+  - 'security'
+  # - 'recording'
+  # - 'livestreaming'
+  # - 'embedmeeting'
+  # - 'sharedvideo'
+  # - 'invite'
+  # - 'videobackgroundblur'
+
 ## custom logo (store file in 'files' folder in the ansible root folder of the host machine)
 config_logo_file:
 ## resolution settings

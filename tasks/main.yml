@@ -80,7 +80,7 @@
   changed_when: true
   notify:
     - compose up
-  when: start_compose
+  when: start_compose|bool
 
 - name: Set fresh install state
   assert: { that: true, quiet: true }
@@ -88,9 +88,10 @@
   notify:
     - ensure compose down
     - init templates
-  when: fresh_install
+  when: fresh_install|bool
 
 - name: Flush handlers
   meta: flush_handlers
 
 - import_tasks: custom.yml
+  when: config_enable_custom_configs|bool
