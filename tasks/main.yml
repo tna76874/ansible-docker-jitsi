@@ -41,6 +41,11 @@
     config_host_binding: ''
   when: config_enable_letsencrypt|bool
 
+- name: Registering auth method
+  set_fact:
+    jitsi_config_auth_type: "{% if (jitsi_password!=None) and (jitsi_config_app_secret==None)%}internal{% elif (jitsi_password==None) and (jitsi_config_app_secret!=None) %}jwt{% endif %}"
+  when: jitsi_password != None or jitsi_config_app_secret!=None
+
 - name: Ensure source files from github
   get_url:
     url: "{{ item.file }}"

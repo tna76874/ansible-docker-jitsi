@@ -17,12 +17,20 @@ project_root: /srv/jitsi
 reverse_proxy_setup: true
 # public domain of the jitsi server
 nginx_domain_name: 
-# jitsi credentials
+## jitsi authentification
+# internal auth
 jitsi_username: admin
 jitsi_password:
-# jitsi configs
+# jwt auth
+jitsi_config_app_id: myjitsiappid
+jitsi_config_app_secret:
+# setting auth type: If left None, the playbook with automatically decide
+jitsi_config_auth_type:
+## jitsi configs
 config_tcp_port: 8000
 config_tcp_port_https: 8443
+config_jvb_port: 10000
+config_jvb_tcp_port: 4443
 config_enable_letsencrypt: 0
 config_lobby: 1
 config_restart_policy: always

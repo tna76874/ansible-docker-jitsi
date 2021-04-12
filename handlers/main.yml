@@ -26,7 +26,7 @@
     - enable auth in env
     - compose down
     - compose up
-    - credentials
+    - credentials internal
     
 - name: glob data
   become: yes
@@ -89,6 +89,9 @@
     - { regexp: '(.*)CONFIG=(.*)', line: 'CONFIG=./data', state: "present" }
     - { regexp: '(.*)HTTP_PORT=(.*)', line: 'HTTP_PORT={{ config_tcp_port }}', state: "present" }
     - { regexp: '(.*)HTTPS_PORT=(.*)', line: 'HTTPS_PORT={{ config_tcp_port_https }}', state: "present" }
+    - { regexp: '(.*)JVB_PORT=(.*)', line: 'JVB_PORT={{ config_jvb_port }}', state: "present" }
+    - { regexp: '(.*)JVB_TCP_PORT=(.*)', line: 'JVB_TCP_PORT={{ config_jvb_tcp_port }}', state: "present" }
+    - { regexp: '(.*)JVB_TCP_MAPPED_PORT=(.*)', line: 'JVB_TCP_MAPPED_PORT={{ config_jvb_tcp_port }}', state: "present" }
     - { regexp: '(.*)ENABLE_LETSENCRYPT=(.*)', line: 'ENABLE_LETSENCRYPT={{ config_enable_letsencrypt }}', state: "present" }
     - { regexp: '(.*)LETSENCRYPT_DOMAIN=(.*)', line: 'LETSENCRYPT_DOMAIN={{ nginx_domain_name }}', state: "present" }
     - { regexp: '(.*)ENABLE_LOBBY=(.*)', line: 'ENABLE_LOBBY={{ config_lobby }}', state: "present" }
@@ -99,24 +102,6 @@
   notify:
     - compose down
     - compose up
-
-- name: enable auth in env
-  lineinfile:
-    path: "{{ project_root }}/.env"
-    state: "{{ item.state }}"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    insertafter: EOF
-  become: yes
-  loop:
-    - { regexp: '(.*)ENABLE_AUTH=(.*)', line: 'ENABLE_AUTH=1', state: "present" }
-    - { regexp: '(.*)ENABLE_GUESTS=(.*)', line: 'ENABLE_GUESTS=1', state: "present" }
-    - { regexp: '(.*)AUTH_TYPE=(.*)', line: 'AUTH_TYPE=internal', state: "present" }
-  notify:
-    - compose down
-    - compose up
-    - credentials
-  when: jitsi_password != None
 
 - name: ensure compose configs
   lineinfile:
@@ -138,6 +123,43 @@
     name: nginx
     state: reloaded
 
+- name: enable auth in env
+  lineinfile:
+    path: "{{ project_root }}/.env"
+    state: "{{ item.state }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: EOF
+  become: yes
+  loop:
+    - { regexp: '(.*)ENABLE_AUTH=(.*)', line: 'ENABLE_AUTH=1', state: "present" }
+    - { regexp: '(.*)ENABLE_GUESTS=(.*)', line: 'ENABLE_GUESTS=1', state: "present" }
+    - { regexp: '(.*)AUTH_TYPE=(.*)', line: 'AUTH_TYPE={{ jitsi_config_auth_type }}', state: "present" }
+  notify:
+    - compose down
+    - compose up
+    - credentials internal
+    - credentials jwt
+  when: jitsi_config_auth_type != None
+
+- name: credentials jwt
+  lineinfile:
+    path: "{{ project_root }}/.env"
+    state: "{{ item.state }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: EOF
+  become: yes
+  loop:
+    - { regexp: '(.*)JWT_APP_ID=(.*)', line: 'JWT_APP_ID={{ jitsi_config_app_id }}', state: "present" }
+    - { regexp: '(.*)JWT_APP_SECRET=(.*)', line: 'JWT_APP_SECRET={{ jitsi_config_app_secret }}', state: "present" }
+    - { regexp: '(.*)JWT_ALLOW_EMPTY=(.*)', line: 'JWT_ALLOW_EMPTY=0', state: "present" }
+    - { regexp: '(.*)ENABLE_GUESTS=(.*)', line: 'ENABLE_GUESTS=0', state: "present" }
+  notify:
+    - compose down
+    - compose up
+  when: jitsi_password == None and jitsi_config_app_secret!=None
+
 - name: compose down
   docker_compose:
     project_src: "{{ project_root }}"
@@ -150,9 +172,9 @@
     state: present
     pull: yes
 
-- name: credentials
+- name: credentials internal
   shell: "docker-compose exec -T prosody prosodyctl --config /config/prosody.cfg.lua register {{ jitsi_username }} meet.jitsi {{ jitsi_password }}"
   args:
     chdir: "{{ project_root }}"
   become: yes
-  when: jitsi_password != None
+  when: jitsi_password != None and jitsi_config_app_secret==None
