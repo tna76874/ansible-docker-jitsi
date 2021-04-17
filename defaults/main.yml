@@ -66,6 +66,7 @@ config_unsupported_browsers:
 config_toolbar_buttons:
   - 'microphone'
   - 'camera'
+  - 'closedcaptions'
   - 'desktop'
   - 'fullscreen'
   - 'fodeviceselection'
@@ -73,6 +74,8 @@ config_toolbar_buttons:
   - 'profile'
   - 'chat'
   - 'etherpad'
+  - 'sharedvideo'
+  - 'shareaudio'
   - 'settings'
   - 'raisehand'
   - 'videoquality'
@@ -81,16 +84,16 @@ config_toolbar_buttons:
   - 'stats'
   - 'shortcuts'
   - 'tileview'
+  - 'select-background'
   - 'download'
   - 'help'
   - 'mute-everyone'
+  - 'mute-video-everyone'
   - 'security'
+  # - 'invite'
+  # - 'embedmeeting'
   # - 'recording'
   # - 'livestreaming'
-  # - 'embedmeeting'
-  # - 'sharedvideo'
-  # - 'invite'
-  # - 'videobackgroundblur'
 
 ## custom logo (store file in 'files' folder in the ansible root folder of the host machine)
 config_logo_file:

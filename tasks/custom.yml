@@ -38,6 +38,7 @@
     # Miscellaneous
     - { regexp: '(.*)config.defaultLanguage(.*)', line: 'config.defaultLanguage = ''{{ config_default_language }}'';', state: "present" }
     - { regexp: '(.*)config.disableThirdPartyRequests(.*)', line: 'config.disableThirdPartyRequests = ''{{ config_disable_third_party_request }}'';', state: "present" }
+    - { regexp: '(.*)config.toolbarButtons(.*)', line: 'config.toolbarButtons = {{ config_toolbar_buttons|sort }};', state: "present" }
   notify:
     - compose down
     - compose up
