@@ -17,6 +17,8 @@ Updated configuration files:
     - all
   become: yes
   vars:
+    # Leave jitsi_docker_release blank to use latest jitsi release
+  	jitsi_docker_release:
     nginx_domain_name: 'jitsi.mydomain.xyz'
     jitsi_username: 'adminuser'
     jitsi_password: 'supersecret'
