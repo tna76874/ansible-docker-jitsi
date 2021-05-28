@@ -1,6 +1,6 @@
 ---
 # jisti release. if left blank, the latest release will be used.
-jitsi_docker_release: stable-5765-1
+jitsi_docker_release: stable-5870
 # ensure docker-compose gets restarted on every run
 restart_compose: false
 # docker-compose project name
