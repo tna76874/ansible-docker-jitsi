@@ -29,15 +29,15 @@
     - { regexp: '(.*)config.requireDisplayName(.*)', line: 'config.requireDisplayName = {{ config_require_name }};', state: "present" }
     # Resolution Settings
     - { regexp: '(.*)config.lastNLimits(.*)', line: "config.lastNLimits = {{ config_lastN }};", state: "present" }
-    - { regexp: '(.*)config.maxFullResolutionParticipants(.*)', line: 'config.maxFullResolutionParticipants = ''{{ config_full_res_N }}'';', state: "present" }
+    - { regexp: '(.*)config.maxFullResolutionParticipants(.*)', line: 'config.maxFullResolutionParticipants = {{ config_full_res_N }};', state: "present" }
     - { regexp: '(.*)config.resolution(.*)', line: 'config.resolution = {{ config_res_h_max }};', state: "present" } 
     - { regexp: '(.*)config.constraints.video.height(.*)', line: 'config.constraints.video.height = { ideal: {{ config_res_h_max }}, max: {{ config_res_h_max }}, min: {{ config_res_h_min }} };', state: "present" }
     - { regexp: '(.*)config.constraints.video.width(.*)', line: 'config.constraints.video.width = { ideal: {{ config_res_w_max }}, max: {{ config_res_w_max }}, min: {{ config_res_w_min }} };', state: "present" }
     # Performance
-    - { regexp: '(.*)config.enableLayerSuspension(.*)', line: 'config.enableLayerSuspension = ''{{ config_enable_layer_suspension }}'';', state: "present" }
+    - { regexp: '(.*)config.enableLayerSuspension(.*)', line: 'config.enableLayerSuspension = {{ config_enable_layer_suspension }};', state: "present" }
     # Miscellaneous
     - { regexp: '(.*)config.defaultLanguage(.*)', line: 'config.defaultLanguage = ''{{ config_default_language }}'';', state: "present" }
-    - { regexp: '(.*)config.disableThirdPartyRequests(.*)', line: 'config.disableThirdPartyRequests = ''{{ config_disable_third_party_request }}'';', state: "present" }
+    - { regexp: '(.*)config.disableThirdPartyRequests(.*)', line: 'config.disableThirdPartyRequests = {{ config_disable_third_party_request }};', state: "present" }
     - { regexp: '(.*)config.toolbarButtons(.*)', line: 'config.toolbarButtons = {{ config_toolbar_buttons|sort }};', state: "present" }
     - { regexp: '(.*)config.hideAddRoomButton(.*)', line: 'config.hideAddRoomButton = {{ "false" if ( config_enable_breakout|bool ) else "true" }};', state: "present" }
 
