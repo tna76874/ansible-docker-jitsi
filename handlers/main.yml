@@ -39,9 +39,8 @@
 - name: cleanup
   become: yes
   file:
-    path: "{{ item.path }}"
+    path: "{{ project_root }}/data"
     state: absent
-  with_items: "{{ directory_content_result.files }}"
 
 - name: init directories
   file:

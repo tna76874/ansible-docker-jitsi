@@ -1,4 +1,11 @@
 ---
+- name: clean-install
+  become: yes
+  file:
+    path: "{{ project_root }}"
+    state: absent
+  when: fresh_install|bool
+
 - name: Check .env file
   stat: 
     path: "{{ project_root }}/.env"
@@ -86,14 +93,6 @@
   notify:
     - compose up
   when: start_compose|bool
-
-- name: Set fresh install state
-  assert: { that: true, quiet: true }
-  changed_when: true
-  notify:
-    - ensure compose down
-    - init templates
-  when: fresh_install|bool
 
 - name: Flush handlers
   meta: flush_handlers
