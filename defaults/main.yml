@@ -1,6 +1,6 @@
 ---
 # jisti release. if left blank, the latest release will be used.
-jitsi_docker_release: stable-5963
+jitsi_docker_release: stable-6726-1
 # ensure docker-compose gets restarted on every run
 restart_compose: false
 # docker-compose project name
@@ -50,6 +50,7 @@ config_disable_third_party_request: 'true'
 config_enable_layer_suspension: 'true'
 config_full_res_N: 2
 config_lastN: {5: 10, 30: 7, 50: 5, 70: 3, 90: 2}
+config_enable_breakout: 0
 # interface.js configs
 config_logo_url: 'images/watermark.svg'
 config_unnamed_user: 'Fellow Jitster'

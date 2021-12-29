@@ -95,10 +95,12 @@
     - { regexp: '(.*)ENABLE_LETSENCRYPT=(.*)', line: 'ENABLE_LETSENCRYPT={{ config_enable_letsencrypt }}', state: "present" }
     - { regexp: '(.*)LETSENCRYPT_DOMAIN=(.*)', line: 'LETSENCRYPT_DOMAIN={{ nginx_domain_name }}', state: "present" }
     - { regexp: '(.*)ENABLE_LOBBY=(.*)', line: 'ENABLE_LOBBY={{ config_lobby }}', state: "present" }
+    - { regexp: '(.*)ENABLE_BREAKOUT_ROOMS=(.*)', line: 'ENABLE_BREAKOUT_ROOMS={{ config_enable_breakout }}', state: "present" }
     - { regexp: '(.*)ETHERPAD_URL_BASE=(.*)', line: 'ETHERPAD_URL_BASE=http://etherpad.meet.jitsi:9001', state: "present" }
     - { regexp: '#PUBLIC_URL=(.*)', line: 'PUBLIC_URL=https://{{ nginx_domain_name }}', state: "present" }
     - { regexp: '(.*)RESTART_POLICY=(.*)', line: 'RESTART_POLICY={{ config_restart_policy }}', state: "present" }
     - { regexp: 'COMPOSE_PROJECT_NAME=(.*)', line: 'COMPOSE_PROJECT_NAME={{ docker_config_project }}', state: "present" }
+    - { regexp: '(.*)JVB_ENABLE_APIS(.*)', line: 'JVB_ENABLE_APIS=rest,colibri', state: "present"  }
   notify:
     - compose down
     - compose up
@@ -113,7 +115,6 @@
   loop:
     - { regexp: '(.*)\$\{HTTP_PORT\}:80(.*)', line: '            - ''{{ config_host_binding }}${HTTP_PORT}:80''', state: "present" }
     - { regexp: '(.*)\$\{HTTPS_PORT\}:443(.*)', line: '            - ''{{ config_host_binding }}${HTTPS_PORT}:443''', state: "present"  }
-    - { regexp: '(.*)JVB_ENABLE_APIS(.*)', line: '            - JVB_ENABLE_APIS=rest,colibri', state: "present"  }
   notify:
     - compose down
     - compose up
@@ -140,7 +141,7 @@
     - compose up
     - credentials internal
     - credentials jwt
-  when: jitsi_config_auth_type != None
+  when: (jitsi_config_auth_type != None) and (config_enable_custom_configs)
 
 - name: credentials jwt
   lineinfile:
@@ -158,7 +159,7 @@
   notify:
     - compose down
     - compose up
-  when: jitsi_password == None and jitsi_config_app_secret!=None
+  when: jitsi_password == None and jitsi_config_app_secret!=None and config_enable_custom_configs
 
 - name: compose down
   docker_compose:
@@ -177,4 +178,4 @@
   args:
     chdir: "{{ project_root }}"
   become: yes
-  when: jitsi_password != None and jitsi_config_app_secret==None
+  when: jitsi_password != None and jitsi_config_app_secret==None and config_enable_custom_configs
