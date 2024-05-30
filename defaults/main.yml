@@ -65,6 +65,9 @@ config_optimal_browsers:
   # - 'firefox'
 config_unsupported_browsers: []
 
+config_keys_js: []
+  # - { name: "codecPreferenceOrder", option: "['AV1', 'VP9', 'VP8', 'H264']" }
+
 config_toolbar_buttons:
   - 'camera'
   - 'chat'
